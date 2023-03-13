@@ -6,6 +6,8 @@ Currently there are examples for:
 
 * multi-step select box
 
+![](./misc/multi-select.png)
+
 ## Running
 
 1. `cd ./public/ && npm i` to install tailwind
