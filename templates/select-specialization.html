@@ -1,0 +1,5 @@
+{{ range .Data.Specializations }}
+<option value="{{ .}}" hx->{{ .}}</option>
+{{ else }}
+<option>Please select a job first</option>
+{{ end }}

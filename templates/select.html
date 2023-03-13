@@ -1,0 +1,25 @@
+{{ define "main" }}
+
+<div class="flex space-x-10">
+  <select
+    name="job"
+    hx-get="/select-jobs"
+    hx-target="#specializations"
+    class="mt-2 block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1"
+  >
+    <option value="">Please select a job</option>
+    {{ range .Data.Jobs }}
+    <option value="{{ .Name }}" hx->{{ .Name }}</option>
+    {{ end }}
+  </select>
+
+  <select
+    name="specialization"
+    id="specializations"
+    class="mt-2 block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1"
+  >
+    <option>Please select a job first</option>
+  </select>
+</div>
+
+{{ end }}

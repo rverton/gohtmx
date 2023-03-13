@@ -1,0 +1,5 @@
+/gohtmx
+.env
+package-lock.json
+/public/node_modules
+/public/output.css
