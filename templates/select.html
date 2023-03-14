@@ -13,13 +13,9 @@
     {{ end }}
   </select>
 
-  <select
-    name="specialization"
-    id="specializations"
-    class="mt-2 block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1"
-  >
-    <option>Please select a job first</option>
-  </select>
+  <div id="specializations">
+    {{ template "select-specialization.html" .Data.Specializations }}
+  </div>
 </div>
 
 {{ end }}

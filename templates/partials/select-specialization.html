@@ -1,0 +1,9 @@
+<select
+  class="mt-2 block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1"
+>
+  {{ range .Data.Specializations }}
+  <option value="{{ . }}" hx->{{ .}}</option>
+  {{ else }}
+  <option>Please select a job first</option>
+  {{ end }}
+</select>

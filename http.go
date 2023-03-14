@@ -18,20 +18,16 @@ var templatesFS embed.FS
 //go:embed public/*
 var assetsFS embed.FS
 
+var tplFuncs template.FuncMap
+
 var (
-	indexTmpl                *template.Template
-	selectTmpl               *template.Template
-	selectSpecializationTmpl *template.Template
+	indexTmpl                = parseTpl(tplFuncs, "templates/index.html")
+	selectTmpl               = parseTpl(tplFuncs, "templates/select.html")
+	selectSpecializationTmpl = parseTpl(tplFuncs, "templates/partials/select-specialization.html")
 )
 
 type TplData struct {
 	Data map[string]any
-}
-
-func init() {
-	indexTmpl = parseTpl(template.FuncMap{}, "templates/index.html")
-	selectTmpl = parseTpl(template.FuncMap{}, "templates/select.html")
-	selectSpecializationTmpl = parseTpl(template.FuncMap{}, "templates/select-specialization.html")
 }
 
 func NewServer(addr string) *Server {
@@ -104,11 +100,13 @@ func (s *Server) Start() error {
 }
 
 func parseTpl(funcs template.FuncMap, file string) *template.Template {
+
+	tpls := []string{"templates/layout.html", "templates/partials/*.html", file}
+
 	tpl, err :=
 		template.New("layout.html").Funcs(funcs).ParseFS(
 			templatesFS,
-			"templates/layout.html",
-			file,
+			tpls...,
 		)
 	if err != nil {
 		log.Fatal("cant parse template", err)
