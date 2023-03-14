@@ -23,7 +23,7 @@ var tplFuncs template.FuncMap
 var (
 	indexTmpl                = parseTpl(tplFuncs, "templates/index.html")
 	selectTmpl               = parseTpl(tplFuncs, "templates/select.html")
-	selectSpecializationTmpl = parseTpl(tplFuncs, "templates/partials/select-specialization.html")
+	selectSpecializationTmpl = parseTpl(tplFuncs, "templates/partial_select-specialization.html")
 )
 
 type TplData struct {
@@ -67,9 +67,11 @@ func (s *Server) handleSelect(w http.ResponseWriter, r *http.Request) {
 		{Name: "Manager"},
 	}
 
-	selectTmpl.ExecuteTemplate(w, "layout.html", &TplData{
+	if err := selectTmpl.ExecuteTemplate(w, "layout.html", &TplData{
 		Data: map[string]any{"Jobs": jobs},
-	})
+	}); err != nil {
+		log.Println("cant execute template", err)
+	}
 }
 
 func (s *Server) handleSelectJobs(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +89,7 @@ func (s *Server) handleSelectJobs(w http.ResponseWriter, r *http.Request) {
 		specializations = []string{"Project", "Team"}
 	}
 
-	selectSpecializationTmpl.ExecuteTemplate(w, "select-specialization.html", &TplData{
+	selectSpecializationTmpl.ExecuteTemplate(w, "partial_select-specialization.html", &TplData{
 		Data: map[string]any{"Specializations": specializations},
 	})
 }
@@ -101,7 +103,7 @@ func (s *Server) Start() error {
 
 func parseTpl(funcs template.FuncMap, file string) *template.Template {
 
-	tpls := []string{"templates/layout.html", "templates/partials/*.html", file}
+	tpls := []string{"templates/layout.html", "templates/partial_*.html", file}
 
 	tpl, err :=
 		template.New("layout.html").Funcs(funcs).ParseFS(
